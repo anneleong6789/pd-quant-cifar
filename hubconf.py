@@ -6,15 +6,8 @@ from models.mnasnet import mnasnet as _mnasnet
 from models.regnet import regnetx_600m as _regnetx_600m
 from models.regnet import regnetx_3200m as _regnetx_3200m
 import torch
-dependencies = ['torch']
-model_path = {
-    'resnet18': r'C:\Users\User\Desktop\Utar\URS\PD-Quant\checkpoint\resnet18_imagenet.pth',
-    'resnet50': r'C:\Users\User\Desktop\Utar\URS\PD-Quant\checkpoint\resnet50_imagenet.pth',
-    'mbv2': r'C:\Users\User\Desktop\Utar\URS\PD-Quant\checkpoint\mobilenetv2.pth',
-    'reg600m': r'C:\Users\User\Desktop\Utar\URS\PD-Quant\checkpoint\regnet_600m.pth',
-    'reg3200m': r'C:\Users\User\Desktop\Utar\URS\PD-Quant\checkpoint\regnet_3200m.pth',
-    'mnasnet': r'C:\Users\User\Desktop\Utar\URS\PD-Quant\checkpoint\mnasnet.pth',
-}
+import torchvision.models as models
+dependencies = ['torch', 'torchvisions']
 
 
 def resnet18(pretrained=False, **kwargs):
@@ -69,3 +62,4 @@ def mnasnet(pretrained=False, **kwargs):
         checkpoint = torch.load(model_path['mnasnet'], map_location='cpu')
         model.load_state_dict(checkpoint)
     return model
+

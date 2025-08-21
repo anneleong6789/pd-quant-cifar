@@ -5,7 +5,7 @@ import argparse
 import os
 import random
 import time
-import hubconf  # noqa: F401
+import torchvision.models as models
 import copy
 from quant import (
     block_reconstruction,
@@ -187,7 +187,21 @@ if __name__ == '__main__':
     train_loader, test_loader = build_imagenet_data(batch_size=args.batch_size, workers=args.workers,
                                                     data_path=args.data_path)
     # load model
-    cnn = eval('hubconf.{}(pretrained=True)'.format(args.arch))
+    if args.arch == "resnet18":
+    cnn = models.resnet18(weights="IMAGENET1K_V1")
+elif args.arch == "resnet50":
+    cnn = models.resnet50(weights="IMAGENET1K_V1")
+elif args.arch == "mobilenetv2":
+    cnn = models.mobilenet_v2(weights="IMAGENET1K_V1")
+elif args.arch == "regnetx_600m":
+    cnn = models.regnet_x_600m(weights="IMAGENET1K_V1")
+elif args.arch == "regnetx_3200m":
+    cnn = models.regnet_x_3_2gf(weights="IMAGENET1K_V2")
+elif args.arch == "mnasnet":
+    cnn = models.mnasnet1_0(weights="IMAGENET1K_V1")
+else:
+    raise ValueError(f"Unsupported architecture: {args.arch}")
+
     # cnn.cuda()
     cnn.eval()
     cnn = cnn.to(device)
