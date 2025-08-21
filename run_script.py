@@ -9,7 +9,7 @@ if __name__ == "__main__":
     w_bits = [2, 4, 2, 4]
     a_bits = [2, 2, 4, 4]
     
-    DATASET_ROOT_PATH = r"C:\Users\User\Desktop\Utar\URS\Dataset\cifar-10"
+    DATASET_ROOT_PATH = "/content/data"
     
     if args.exp_name == "resnet18":
         for i in range(4):
@@ -39,4 +39,5 @@ if __name__ == "__main__":
     if args.exp_name == "mnasnet":
         for i in range(4):
             os.system(f"python main_imagenet.py --data_path \"{DATASET_ROOT_PATH}\" --arch mnasnet --n_bits_w {w_bits[i]} --n_bits_a {a_bits[i]} --weight 0.2 --T 1.0 --lamb_c 0.001")
+
             time.sleep(0.5)
