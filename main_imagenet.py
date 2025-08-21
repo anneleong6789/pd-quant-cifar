@@ -150,6 +150,9 @@ if __name__ == '__main__':
     parser.add_argument('--workers', default=4, type=int, help='number of workers for data loader')
     parser.add_argument('--data_path', default=r"C:\Users\User\Desktop\Utar\URS\Dataset\processed-tiny-imagenet-200\tiny-imagenet-200", type=str, help='path to ImageNet data')
 
+    # NEW: experiment name
+    parser.add_argument('--exp_name', default='default_exp', type=str, help='name for saving results')
+    
     # quantization parameters
     parser.add_argument('--n_bits_w', default=4, type=int, help='bitwidth for weight quantization')
     parser.add_argument('--channel_wise', default=True, help='apply channel_wise quantization for weights')
@@ -181,6 +184,17 @@ if __name__ == '__main__':
     parser.add_argument('--bn_lr', default=1e-3, type=float, help='learning rate for DC')
     parser.add_argument('--lamb_c', default=0.02, type=float, help='hyper-parameter for DC')
     args = parser.parse_args()
+
+    # === Create experiment folder ===
+    results_dir = os.path.join("results", args.exp_name)
+    os.makedirs(results_dir, exist_ok=True)
+
+    # redirect logs to file + stdout
+    log_file = os.path.join(results_dir, "log.txt")
+    f = open(log_file, "w")
+    def log_print(*msg):
+        print(*msg)
+        print(*msg, file=f)
 
     seed_all(args.seed)
     # build imagenet data loader
@@ -271,4 +285,5 @@ if __name__ == '__main__':
     qnn.set_quant_state(weight_quant=True, act_quant=True)
     print('Full quantization (W{}A{}) accuracy: {}'.format(args.n_bits_w, args.n_bits_a,
                                                            validate_model(test_loader, qnn)))
+
 
