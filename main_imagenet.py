@@ -188,19 +188,19 @@ if __name__ == '__main__':
                                                     data_path=args.data_path)
     # load model
     if args.arch == "resnet18":
-    cnn = models.resnet18(weights="IMAGENET1K_V1")
-elif args.arch == "resnet50":
-    cnn = models.resnet50(weights="IMAGENET1K_V1")
-elif args.arch == "mobilenetv2":
-    cnn = models.mobilenet_v2(weights="IMAGENET1K_V1")
-elif args.arch == "regnetx_600m":
-    cnn = models.regnet_x_600m(weights="IMAGENET1K_V1")
-elif args.arch == "regnetx_3200m":
-    cnn = models.regnet_x_3_2gf(weights="IMAGENET1K_V2")
-elif args.arch == "mnasnet":
-    cnn = models.mnasnet1_0(weights="IMAGENET1K_V1")
-else:
-    raise ValueError(f"Unsupported architecture: {args.arch}")
+        cnn = models.resnet18(weights="IMAGENET1K_V1")
+    elif args.arch == "resnet50":
+        cnn = models.resnet50(weights="IMAGENET1K_V1")
+    elif args.arch == "mobilenetv2":
+        cnn = models.mobilenet_v2(weights="IMAGENET1K_V1")
+    elif args.arch == "regnetx_600m":
+        cnn = models.regnet_x_600m(weights="IMAGENET1K_V1")
+    elif args.arch == "regnetx_3200m":
+        cnn = models.regnet_x_3_2gf(weights="IMAGENET1K_V2")
+    elif args.arch == "mnasnet":
+        cnn = models.mnasnet1_0(weights="IMAGENET1K_V1")
+    else:
+        raise ValueError(f"Unsupported architecture: {args.arch}")
 
     # cnn.cuda()
     cnn.eval()
@@ -271,3 +271,4 @@ else:
     qnn.set_quant_state(weight_quant=True, act_quant=True)
     print('Full quantization (W{}A{}) accuracy: {}'.format(args.n_bits_w, args.n_bits_a,
                                                            validate_model(test_loader, qnn)))
+
