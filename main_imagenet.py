@@ -285,5 +285,22 @@ if __name__ == '__main__':
     qnn.set_quant_state(weight_quant=True, act_quant=True)
     print('Full quantization (W{}A{}) accuracy: {}'.format(args.n_bits_w, args.n_bits_a,
                                                            validate_model(test_loader, qnn)))
+        # === Save final quantized model and args ===
+    save_path = os.path.join(results_dir, f"quantized_{args.arch}_W{args.n_bits_w}A{args.n_bits_a}.pth")
+    torch.save({
+        "arch": args.arch,
+        "state_dict": qnn.state_dict(),
+        "args": vars(args),
+    }, save_path)
+    log_print(f"Quantized model saved to {save_path}")
+
+    # Save args separately as a text file
+    args_file = os.path.join(results_dir, "args.txt")
+    with open(args_file, "w") as f_args:
+        for k, v in vars(args).items():
+            f_args.write(f"{k}: {v}\n")
+    log_print(f"Args saved to {args_file}")
+
+    f.close()
 
 
